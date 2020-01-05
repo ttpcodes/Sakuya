@@ -62,12 +62,7 @@ class Permissions(Plugin):
     @permissions.command()
     async def add(self, ctx, target: typing.Union[DiscordRole, DiscordMember], permission: str):
         session = Session()
-        if isinstance(target, DiscordMember):
-            obj = to_sql(session, target, Member)
-            target_type = 'Member'
-        else:
-            obj = to_sql(session, target, Role)
-            target_type = 'Role'
+        obj, target_type = validate_permissions_command(session, target, permission)
         data = self.get_data(obj, DEFAULT_ROLE_USER_DATA)
         if permission in data:
             session.close()
@@ -83,12 +78,7 @@ class Permissions(Plugin):
     @permissions.command()
     async def remove(self, ctx, target: typing.Union[DiscordMember, DiscordRole], permission: str):
         session = Session()
-        if isinstance(target, DiscordMember):
-            obj = to_sql(session, target, Member)
-            target_type = 'Member'
-        else:
-            obj = to_sql(session, target, Role)
-            target_type = 'Role'
+        obj, target_type = validate_permissions_command(session, target, permission)
         data = self.get_data(obj, DEFAULT_ROLE_USER_DATA)
         if permission in data:
             data.remove(permission)
@@ -119,6 +109,18 @@ def set_permissions_embed(embed, target_type, target, permission):
     embed.add_field(name='Type', value=target_type, inline=True)
     embed.add_field(name='Name', value=str(target), inline=True)
     embed.add_field(name='Permission', value=permission)
+
+
+def validate_permissions_command(session, target, permission):
+    if len(permission) == 0:
+        raise CommandError("An empty permission string was specified")
+    if isinstance(target, DiscordMember):
+        obj = to_sql(session, target, Member)
+        target_type = 'Member'
+    else:
+        obj = to_sql(session, target, Role)
+        target_type = 'Role'
+    return obj, target_type
 
 
 def setup(bot):
