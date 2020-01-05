@@ -76,7 +76,7 @@ class Permissions(Plugin):
             await ctx.send(embed=embed)
 
     @permissions.command(brief='Remove a permissions binding from a Member or Role.')
-    async def remove(self, ctx, target: typing.Union[DiscordMember, DiscordRole], permission: str):
+    async def remove(self, ctx, target: typing.Union[DiscordRole, DiscordMember], permission: str):
         session = Session()
         obj, target_type = validate_permissions_command(session, target, permission)
         data = self.get_data(obj, DEFAULT_ROLE_USER_DATA)
