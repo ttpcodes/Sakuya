@@ -14,11 +14,11 @@ class Roles(Plugin):
             raise NoPrivateMessage()
         return True
 
-    @group()
+    @group(brief='Manage and assign roles.', invoke_without_command=True)
     async def roles(self, ctx):
-        pass
+        await ctx.send_help(ctx.command)
 
-    @roles.command()
+    @roles.command(brief='Add a role to yourself.')
     async def add(self, ctx, role: DiscordRole):
         session = Session()
         obj = to_sql(session, role, Role)
@@ -34,7 +34,7 @@ class Roles(Plugin):
             return
         raise CommandError('You are not allowed to add role {}'.format(str(role)))
 
-    @roles.command()
+    @roles.command(brief='Allow a role to be added.')
     async def allow(self, ctx, role: DiscordRole):
         session = Session()
         obj = to_sql(session, role, Role)
@@ -48,7 +48,7 @@ class Roles(Plugin):
         embed.description = str(role)
         await ctx.send(embed=embed)
 
-    @roles.command()
+    @roles.command(brief='Disallow a role from being added.')
     async def disallow(self, ctx, role: DiscordRole):
         session = Session()
         obj = to_sql(session, role, Role)
@@ -63,7 +63,7 @@ class Roles(Plugin):
         session.close()
         raise CommandError('Role `{}` is already disallowed'.format(str(role)))
 
-    @roles.command()
+    @roles.command(brief='Remove a role from yourself.')
     async def remove(self, ctx, role: DiscordRole):
         session = Session()
         obj = to_sql(session, role, Role)

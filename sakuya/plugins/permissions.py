@@ -55,11 +55,11 @@ class Permissions(Plugin):
             raise NoPrivateMessage()
         return True
 
-    @group()
+    @group(brief='Manage command permissions within a Guild.', invoke_without_command=True)
     async def permissions(self, ctx):
-        pass
+        await ctx.send_help(ctx.command)
 
-    @permissions.command()
+    @permissions.command(brief='Add a permissions binding to a Member or Role.')
     async def add(self, ctx, target: typing.Union[DiscordRole, DiscordMember], permission: str):
         session = Session()
         obj, target_type = validate_permissions_command(session, target, permission)
@@ -75,7 +75,7 @@ class Permissions(Plugin):
             session.close()
             await ctx.send(embed=embed)
 
-    @permissions.command()
+    @permissions.command(brief='Remove a permissions binding from a Member or Role.')
     async def remove(self, ctx, target: typing.Union[DiscordMember, DiscordRole], permission: str):
         session = Session()
         obj, target_type = validate_permissions_command(session, target, permission)
@@ -92,7 +92,7 @@ class Permissions(Plugin):
             raise CommandError('Could not find {} `{}` with permission `{}`'.format(target_type.lower(), str(target),
                                                                                     permission))
 
-    @permissions.command()
+    @permissions.command(brief='Reset all permissions bindings in the Guild.')
     async def reset(self, ctx):
         session = Session()
         obj = to_sql(session, ctx.guild, Guild)
