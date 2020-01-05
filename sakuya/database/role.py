@@ -7,5 +7,5 @@ from sakuya.database.util import Base
 class Role(Base):
     __tablename__ = 'roles'
     id = Column(String, primary_key=True)
-    guild_id = Column(String, ForeignKey('guilds.id'))
+    guild_id = Column(String, ForeignKey('guilds.id'), nullable=False)
     json = Column(MutableDict.as_mutable(JSON), default={}, nullable=False)

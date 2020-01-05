@@ -24,7 +24,8 @@ def to_sql(session, obj, model):
         instance = session.query(sql).filter_by(id=str(obj.id), **kwargs).first()
         if not instance:
             first_or_create(session, mapping['parent']['model'], arg)
-            first_or_create(session, mapping['child'], obj.id)
+            if mapping.get('child'):
+                first_or_create(session, mapping['child'], obj.id)
             instance = model(id=str(obj.id), **kwargs)
             session.add(instance)
             session.commit()

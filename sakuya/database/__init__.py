@@ -24,11 +24,15 @@ mappings = {
             'model': Guild
         },
         'child': User,
-        'association': 'guild_id',
-        'attribute': 'guild.id',
         'model': Member
     },
-    'Role': Role,
+    'Role': {
+        'parent': {
+            'attribute': 'guild.id',
+            'column': 'guild_id',
+            'model': Guild
+        },
+        'model': Role
+    },
     'User': User
 }
-
