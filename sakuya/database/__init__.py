@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm.session import sessionmaker
+from urllib.parse import quote_plus
 
 from sakuya import Config
 from sakuya.database.guild import Guild
@@ -9,8 +10,10 @@ from sakuya.database.user import User
 from sakuya.database.util import Base
 
 config = Config['database']
-engine = create_engine('postgresql://{}:{}@{}:{}/{}'.format(config['username'], config['password'], config['host'],
-                                                            config['port'], config['database']))
+engine = create_engine('postgresql://{}:{}@{}:{}/{}'.format(quote_plus(config['username']),
+                                                            quote_plus(config['password']), quote_plus(config['host']),
+                                                            quote_plus(str(config['port'])),
+                                                            quote_plus(config['database'])))
 Base.metadata.create_all(engine)
 Session = sessionmaker()
 Session.configure(bind=engine)
