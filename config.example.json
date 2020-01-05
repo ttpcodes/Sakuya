@@ -8,7 +8,8 @@
   },
   "discord": {
     "extensions": [
-      "sakuya.plugins.permissions"
+      "sakuya.plugins.permissions",
+      "sakuya.plugins.roles"
     ],
     "token": ""
   }
