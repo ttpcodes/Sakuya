@@ -34,13 +34,13 @@ class Permissions(Plugin):
             attributes.append(ctx.invoked_subcommand.parent.name.lower())
         attributes.append(ctx.command.name.lower())
         permission = '.'.join(attributes)
-        if not any([node == permission or permission.startswith(node) and permission[len(node)] == '.' for node in
-                    data]):
+        if not any([node in [permission, '*'] or permission.startswith(node) and permission[len(node)] == '.' for node
+                    in data]):
             for role in member.roles:
                 obj = to_sql(session, role, Role)
                 data = self.get_data(obj, DEFAULT_ROLE_USER_DATA)
-                if any([node == permission or permission.startswith(node) and permission[len(node)] == '.' for node in
-                        data]):
+                if any([node in [permission, '*'] or permission.startswith(node) and permission[len(node)] == '.' for
+                        node in data]):
                     allowed = True
                     break
         else:
