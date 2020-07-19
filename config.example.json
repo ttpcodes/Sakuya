@@ -15,6 +15,7 @@
         }
       },
       "sakuya.plugins.permissions": {},
+      "sakuya.plugins.prefix": {},
       "sakuya.plugins.roles": {}
     },
     "prefix": "!",
