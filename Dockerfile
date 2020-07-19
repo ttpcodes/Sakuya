@@ -1,4 +1,4 @@
-FROM python:3.8.1-alpine3.11
+FROM python:3.8.4-alpine3.12
 
 RUN apk add --no-cache --virtual build gcc g++ linux-headers musl-dev postgresql-dev
 
