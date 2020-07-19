@@ -1,12 +1,12 @@
 FROM python:3.8.1-alpine3.11
 
-RUN apk add --no-cache --virtual build gcc musl-dev postgresql-dev
+RUN apk add --no-cache --virtual build gcc g++ linux-headers musl-dev postgresql-dev
 
 COPY . /srv
 WORKDIR /srv
 RUN pip install -r requirements.txt
 
 RUN apk del build
-RUN apk add --no-cache libpq
+RUN apk add --no-cache libpq libstdc++
 
 CMD ["python", "-m", "sakuya"]

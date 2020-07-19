@@ -1,0 +1,3 @@
+[submodule "sakuya/plugins/acnh/MeteoNook"]
+	path = sakuya/plugins/acnh/MeteoNook
+	url = git@github.com:ttpcodes/MeteoNook.git
