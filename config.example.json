@@ -17,6 +17,7 @@
       "sakuya.plugins.permissions": {},
       "sakuya.plugins.roles": {}
     },
+    "prefix": "!",
     "token": ""
   }
 }

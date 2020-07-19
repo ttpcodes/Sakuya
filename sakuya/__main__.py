@@ -5,7 +5,7 @@ from sakuya import Config, generate_embed_template
 
 class Sakuya(Bot):
     def __init__(self):
-        super().__init__(command_prefix='!')
+        super().__init__(command_prefix=Config['discord']['prefix'])
 
     async def on_command_error(self, ctx, exception):
         embed = generate_embed_template(ctx, 'Error Running Command', True)
