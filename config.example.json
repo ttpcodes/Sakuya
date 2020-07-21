@@ -7,10 +7,10 @@
     "database": "postgres"
   },
   "discord": {
-    "extensions": [
-      "sakuya.plugins.permissions",
-      "sakuya.plugins.roles"
-    ],
+    "extensions": {
+      "sakuya.plugins.permissions": {},
+      "sakuya.plugins.roles": {}
+    },
     "token": ""
   }
 }

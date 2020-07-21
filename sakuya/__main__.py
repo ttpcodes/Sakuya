@@ -14,6 +14,6 @@ class Sakuya(Bot):
 
 
 bot = Sakuya()
-for extension in Config['discord']['extensions']:
+for extension in Config['discord']['extensions'].keys():
     bot.load_extension(extension)
 bot.run(Config['discord']['token'])
