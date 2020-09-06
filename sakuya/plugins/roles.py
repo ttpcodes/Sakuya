@@ -2,7 +2,7 @@ from discord import Role as DiscordRole
 from discord.ext.commands import CommandError, group, NoPrivateMessage
 
 from sakuya import generate_embed_template, Plugin
-from sakuya.database import Role, Session
+from sakuya.database import Role, session_ctx
 from sakuya.database.methods import to_sql
 
 DEFAULT_ROLE_DATA = False
@@ -20,10 +20,9 @@ class Roles(Plugin):
 
     @roles.command(brief='Add a role to yourself.')
     async def add(self, ctx, role: DiscordRole):
-        session = Session()
-        obj = to_sql(session, role, Role)
-        data = self.get_data(obj, DEFAULT_ROLE_DATA)
-        session.close()
+        with session_ctx() as session:
+            obj = to_sql(session, role, Role)
+            data = self.get_data(obj, DEFAULT_ROLE_DATA)
         if data:
             if role in ctx.author.roles:
                 raise CommandError('You already have the role `{}`'.format(str(role)))
@@ -36,39 +35,34 @@ class Roles(Plugin):
 
     @roles.command(brief='Allow a role to be added.')
     async def allow(self, ctx, role: DiscordRole):
-        session = Session()
-        obj = to_sql(session, role, Role)
-        data = self.get_data(obj, DEFAULT_ROLE_DATA)
-        if data:
-            session.close()
-            raise CommandError('Role `{}` is already allowed'.format(str(role)))
-        self.set_data(session, obj, True)
-        session.close()
+        with session_ctx() as session:
+            obj = to_sql(session, role, Role)
+            data = self.get_data(obj, DEFAULT_ROLE_DATA)
+            if data:
+                raise CommandError('Role `{}` is already allowed'.format(str(role)))
+            self.set_data(session, obj, True)
         embed = generate_embed_template(ctx, 'Role Allowed Successfully')
         embed.description = str(role)
         await ctx.send(embed=embed)
 
     @roles.command(brief='Disallow a role from being added.')
     async def disallow(self, ctx, role: DiscordRole):
-        session = Session()
-        obj = to_sql(session, role, Role)
-        data = self.get_data(obj, DEFAULT_ROLE_DATA)
-        if data:
-            self.set_data(session, obj, False)
-            session.close()
-            embed = generate_embed_template(ctx, 'Role Disallowed Successfully')
-            embed.description = str(role)
-            await ctx.send(embed=embed)
-            return
-        session.close()
+        with session_ctx() as session:
+            obj = to_sql(session, role, Role)
+            data = self.get_data(obj, DEFAULT_ROLE_DATA)
+            if data:
+                self.set_data(session, obj, False)
+                embed = generate_embed_template(ctx, 'Role Disallowed Successfully')
+                embed.description = str(role)
+                await ctx.send(embed=embed)
+                return
         raise CommandError('Role `{}` is already disallowed'.format(str(role)))
 
     @roles.command(brief='Remove a role from yourself.')
     async def remove(self, ctx, role: DiscordRole):
-        session = Session()
-        obj = to_sql(session, role, Role)
-        data = self.get_data(obj, DEFAULT_ROLE_DATA)
-        session.close()
+        with session_ctx() as session:
+            obj = to_sql(session, role, Role)
+            data = self.get_data(obj, DEFAULT_ROLE_DATA)
         if data:
             if role in ctx.author.roles:
                 await ctx.author.remove_roles(role, reason='Removed via command')
