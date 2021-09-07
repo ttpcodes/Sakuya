@@ -1,3 +1,4 @@
+from discord import Intents
 from discord.ext.commands import command
 
 from sakuya import Config, generate_embed_template, Plugin
@@ -6,6 +7,7 @@ from sakuya.database.methods import to_sql
 
 
 DEFAULT_PREFIX = Config['discord']['prefix']
+INTENTS = Intents(guild_messages=True, guilds=True, members=True)
 
 
 class Prefix(Plugin):

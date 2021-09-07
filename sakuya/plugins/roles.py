@@ -1,4 +1,4 @@
-from discord import Role as DiscordRole
+from discord import Intents, Role as DiscordRole
 from discord.ext.commands import CommandError, group, NoPrivateMessage
 
 from sakuya import generate_embed_template, Plugin
@@ -6,6 +6,7 @@ from sakuya.database import Role, session_ctx
 from sakuya.database.methods import to_sql
 
 DEFAULT_ROLE_DATA = False
+INTENTS = Intents(guild_messages=True, guilds=True, members=True)
 
 
 class Roles(Plugin):

@@ -1,4 +1,4 @@
-from discord import Member as DiscordMember, Role as DiscordRole
+from discord import Intents, Member as DiscordMember, Role as DiscordRole
 from discord.ext.commands import CheckFailure, CommandError, Group, group, NoPrivateMessage
 from discord.utils import get
 
@@ -9,6 +9,7 @@ from sakuya.database.methods import to_sql
 import typing
 
 DEFAULT_ROLE_USER_DATA = []
+INTENTS = Intents(guild_messages=True, guilds=True, members=True)
 
 
 class MissingPermissions(CheckFailure):

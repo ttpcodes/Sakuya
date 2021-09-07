@@ -1,3 +1,4 @@
+from discord import Intents
 from discord.ext.commands import BadArgument, Converter, group
 from grpc import insecure_channel
 
@@ -6,6 +7,7 @@ from sakuya.plugins.acnh.proto.meteonook_pb2 import Hemisphere as ProtoHemispher
 from sakuya.plugins.acnh.proto.meteonook_pb2_grpc import MeteoNookStub
 
 DEFAULT_ISLAND_NAME = 'Default'
+INTENTS = Intents(dm_messages=True, guild_messages=True, members=True)
 WAIT_SECONDS = 10
 
 
