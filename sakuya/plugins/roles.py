@@ -20,7 +20,7 @@ class Roles(Plugin):
         await ctx.send_help(ctx.command)
 
     @roles.command(brief='Add a role to yourself.')
-    async def add(self, ctx, role: DiscordRole):
+    async def add(self, ctx, *, role: DiscordRole):
         with session_ctx() as session:
             obj = to_sql(session, role, Role)
             data = self.get_data(obj, DEFAULT_ROLE_DATA)
@@ -35,7 +35,7 @@ class Roles(Plugin):
         raise CommandError('You are not allowed to add role {}'.format(str(role)))
 
     @roles.command(brief='Allow a role to be added.')
-    async def allow(self, ctx, role: DiscordRole):
+    async def allow(self, ctx, *, role: DiscordRole):
         with session_ctx() as session:
             obj = to_sql(session, role, Role)
             data = self.get_data(obj, DEFAULT_ROLE_DATA)
@@ -47,7 +47,7 @@ class Roles(Plugin):
         await ctx.send(embed=embed)
 
     @roles.command(brief='Disallow a role from being added.')
-    async def disallow(self, ctx, role: DiscordRole):
+    async def disallow(self, ctx, *, role: DiscordRole):
         with session_ctx() as session:
             obj = to_sql(session, role, Role)
             data = self.get_data(obj, DEFAULT_ROLE_DATA)
@@ -60,7 +60,7 @@ class Roles(Plugin):
         raise CommandError('Role `{}` is already disallowed'.format(str(role)))
 
     @roles.command(brief='Remove a role from yourself.')
-    async def remove(self, ctx, role: DiscordRole):
+    async def remove(self, ctx, *, role: DiscordRole):
         with session_ctx() as session:
             obj = to_sql(session, role, Role)
             data = self.get_data(obj, DEFAULT_ROLE_DATA)
